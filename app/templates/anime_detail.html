@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ anime['title'] }} - Wikipanime</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/anime_detail.css') }}">
+    <style>
+        .rating-display { font-size: 1.2rem; color: #feca57; margin-bottom: 10px; }
+        .rating-section { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 25px; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .rating-select { padding: 10px; border-radius: 5px; background: rgba(25, 25, 35, 0.8); color: white; border: 1px solid #00d2ff; outline: none; margin-right: 10px; }
+        .btn-rate { background: linear-gradient(45deg, #feca57, #ff9f43); color: #000; padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-rate:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(254, 202, 87, 0.4); }
+    </style>
+</head>
+<body>
+    <div class="glass-container">
+        <a href="{{ url_for('dashboard') }}" class="back-link">⬅ Back To Menu</a>
+        
+        <div class="anime-header">
+            <img src="{{ url_for('static', filename='images/' + anime['image_url']) }}" alt="{{ anime['title'] }}">
+            <div class="anime-info">
+                <h2>{{ anime['title'] }}</h2>
+                
+                <div class="rating-display">
+                    ⭐ <strong>{{ "%.1f"|format(anime['avg_rating']) }} / 5.0</strong> 
+                    <small style="color: #ccc;">({{ anime['total_votes'] }} Ratings)</small>
+                </div>
+
+                <p class="genres"><strong>Genres:</strong> {{ anime['genres'] }}</p>
+                <p class="desc"><strong>Description:</strong> {{ anime['description'] }}</p>
+            </div>
+        </div>
+
+        <div class="rating-section">
+            <h3 style="margin-bottom: 10px; color: #00d2ff;">Rate this anime</h3>
+            <form method="POST" action="">
+                <input type="hidden" name="action" value="rate">
+                <select name="score" required class="rating-select">
+                    <option value="" disabled {% if not my_vote %}selected{% endif %}>Select score</option>
+                    <option value="5" {% if my_vote == 5 %}selected{% endif %}>⭐⭐⭐⭐⭐ (Masterpiece)</option>
+                    <option value="4" {% if my_vote == 4 %}selected{% endif %}>⭐⭐⭐⭐ (Great)</option>
+                    <option value="3" {% if my_vote == 3 %}selected{% endif %}>⭐⭐⭐ (Good)</option>
+                    <option value="2" {% if my_vote == 2 %}selected{% endif %}>⭐⭐ (Mediocre)</option>
+                    <option value="1" {% if my_vote == 1 %}selected{% endif %}>⭐ (Bad)</option>
+                </select>
+                <button type="submit" class="btn-rate">Rate</button>
+            </form>
+        </div>
+
+        <div class="comment-section">
+            <h3>Comments ({{ comments|length }})</h3>
+            
+            <form method="POST" action="">
+                <input type="hidden" name="action" value="comment">
+                
+                <textarea name="content" placeholder="Write your comments here" required></textarea>
+                <button type="submit" class="btn-submit">Send</button>
+            </form>
+
+            <div class="comments-list">
+                {% if comments %}
+                    {% for c in comments %}
+                    <div class="comment-box">
+                        <span class="comment-date">{{ c['created_at'].strftime('%d-%m-%Y %H:%M') if c['created_at'] else '' }}</span>
+                        <strong>{{ c['username'] }}</strong>
+                        <p class="comment-text">{{ c['content'] }}</p>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="no-comment">No Comments Found</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

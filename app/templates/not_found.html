@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not Found</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/not_found.css') }}">
+</head>
+<body>
+    <ul>
+        <p>Not Found</p>
+        <form action="/dashboard" method="get">
+            <input type="text" name="keyword" id="keyword" placeholder="Keyword">
+            <input type="submit" value="Search">
+        </form>
+        <a href="{{ url_for('dashboard') }}" class="back-link">Back to Dashboard</a>
+    </ul>
+</body>
+
+</html>

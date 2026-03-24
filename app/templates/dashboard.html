@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wikipanime - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <style>
+        .genre-select { padding: 12px; background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; outline: none; }
+        .genre-select option { background: #1a1a24; color: white; }
+        .anime-rating { text-align: center; color: #feca57; font-weight: bold; margin-bottom: 10px; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    
+    <div class="container">
+        <div class="controls-glass">
+            <form action="/dashboard" method="get">
+                <input type="text" name="keyword" id="keyword" placeholder="Search Your Favorite Anime" value="{{ keyword }}">
+                
+                <select name="genre" class="genre-select">
+                    <option value="">All Genres</option>
+                    <option value="Action" {% if current_genre == 'Action' %}selected{% endif %}>Action</option>
+                    <option value="Adventure" {% if current_genre == 'Adventure' %}selected{% endif %}>Adventure</option>
+                    <option value="Comedy" {% if current_genre == 'Comedy' %}selected{% endif %}>Comedy</option>
+                    <option value="Drama" {% if current_genre == 'Drama' %}selected{% endif %}>Drama</option>
+                    <option value="Ecchi" {% if current_genre == 'Ecchi' %}selected{% endif %}>Ecchi</option>
+                    <option value="Fantasy" {% if current_genre == 'Fantasy' %}selected{% endif %}>Fantasy</option>
+                    <option value="Gambling" {% if current_genre == 'Gambling' %}selected{% endif %}>Gambling</option>
+                    <option value="Gourmet" {% if current_genre == 'Gourmet' %}selected{% endif %}>Gourmet</option>
+                    <option value="Horror" {% if current_genre == 'Horror' %}selected{% endif %}>Horror</option>
+                    <option value="Mystery" {% if current_genre == 'Mystery' %}selected{% endif %}>Mystery</option>
+                    <option value="Romance" {% if current_genre == 'Romance' %}selected{% endif %}>Romance</option>
+                    <option value="Sci-Fi" {% if current_genre == 'Sci-Fi' %}selected{% endif %}>Sci-Fi</option>
+                    <option value="Slice of Life" {% if current_genre == 'Slice of Life' %}selected{% endif %}>Slice of Life</option>
+                    <option value="Sports" {% if current_genre == 'Sports' %}selected{% endif %}>Sports</option>
+                    <option value="Supernatural" {% if current_genre == 'Supernatural' %}selected{% endif %}>Supernatural</option>
+                    <option value="Suspense" {% if current_genre == 'Suspense' %}selected{% endif %}>Suspense</option>
+                </select>
+
+                <input type="submit" value="Find & Filter">
+            </form>
+            
+            <div class="pagination">
+                {% for i in range(count) %}
+                    <a href="/dashboard?page={{ i }}&keyword={{ keyword }}&genre={{ current_genre }}">Page {{ i + 1 }}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="anime-list">
+            {% for item in result %}
+                <div class="anime-card">
+                    <div class="anime-left">
+                        <img src="{{ url_for('static', filename='images/' ~ item.image_url) }}" alt="{{ item.title }}" />
+                        <h3 class="anime-title">{{ item.title }}</h3>
+                        <div class="anime-rating">
+                            ⭐ {{ "%.1f"|format(item.avg_rating) }} <small style="color:#ccc;">({{ item.total_votes }})</small>
+                        </div>
+                    </div>
+                    
+                    <div class="anime-right">
+                        <div class="anime-genres">
+                            {% for genre in item.genres.split(', ') %}
+                                {% if genre %}
+                                    <span class="genre-tag">{{ genre }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        
+                        <p class="anime-description">{{ item.description }}</p>
+                        
+                        <a href="{{ url_for('anime_detail', anime_id=item.id) }}" class="btn-detail">
+                            Rate & Read Comments
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

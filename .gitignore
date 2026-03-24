@@ -1,0 +1,11 @@
+mysql_data/
+
+__pycache__/
+*.pyc
+
+*.Zone.Identifier
+.DS_Store
+
+.env
+
+inventory.ini

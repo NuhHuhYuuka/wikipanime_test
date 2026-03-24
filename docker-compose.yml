@@ -1,0 +1,18 @@
+services:
+  app:
+    build: ./app
+    restart: unless-stopped
+    ports:
+      - 5000:5000
+    environment:
+      DB_USER: yuwkaa
+      DB_PASSWORD: fake_db_password
+      DB_NAME: wikipanime
+      TZ: Asia/Ho_Chi_Minh
+      FLASK_DEBUG: 1
+    volumes:
+      - ./app:/app
+
+networks:
+  app_network:
+    driver: bridge

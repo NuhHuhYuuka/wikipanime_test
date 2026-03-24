@@ -1,0 +1,178 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: url('https://wallpapercave.com/wp/wp4810385.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.5);
+    min-height: 100vh;
+}
+
+.glass-container {
+    background: rgba(25, 25, 35, 0.7);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 900px;
+    width: 100%;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 25px;
+    color: #00d2ff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.back-link:hover {
+    color: #fa71cd;
+    transform: translateX(-5px);
+}
+
+.anime-header {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 30px;
+}
+
+.anime-header img {
+    width: 300px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    object-fit: cover;
+}
+
+.anime-info h2 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    background: linear-gradient(45deg, #00d2ff, #fa71cd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.genres {
+    color: #00d2ff;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.desc {
+    color: #dcdde1;
+    line-height: 1.8;
+    text-align: justify;
+}
+
+.comment-section h3 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    border-left: 5px solid #00d2ff;
+    padding-left: 15px;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    resize: vertical;
+    transition: 0.3s;
+    margin-bottom: 15px;
+}
+
+textarea:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #00d2ff;
+    box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+}
+
+.btn-submit {
+    background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+}
+
+.comments-list {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.comment-box {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.comment-box:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.comment-box strong {
+    color: #fa71cd;
+    font-size: 1.1rem;
+}
+
+.comment-date {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    float: right;
+}
+
+.comment-text {
+    margin-top: 15px;
+    white-space: pre-wrap;
+    color: #dcdde1;
+    line-height: 1.6;
+}
+
+.no-comment {
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .anime-header {
+        flex-direction: column;
+    }
+    .anime-header img {
+        width: 100%;
+    }
+}

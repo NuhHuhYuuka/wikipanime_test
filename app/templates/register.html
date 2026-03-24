@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wikipanime - Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+</head>
+<body>
+    <div class="glass-container">
+        <h2>Register</h2>
+        <form action="/register" method="post">
+            <div class="input-group">
+                <input type="text" name="username" id="username" placeholder="Username" required>
+            </div>
+            <div class="input-group">
+                <input type="password" name="password" id="password" placeholder="Password" required>
+            </div>
+            <input type="submit" value="Register" class="btn-submit">
+        </form>
+        <div class="links">
+            <a href="/">⬅ Back To Menu</a>
+            <a href="/login">Already have an account ?</a>
+        </div>
+    </div>
+</body>
+</html>
