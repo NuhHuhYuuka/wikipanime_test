@@ -3,8 +3,9 @@ services:
     build: ./app
     restart: unless-stopped
     ports:
-      - 5000:5000
+      - "5000:5000"
     environment:
+      DB_HOST: db
       DB_USER: yuwkaa
       DB_PASSWORD: fake_db_password
       DB_NAME: wikipanime
@@ -12,6 +13,25 @@ services:
       FLASK_DEBUG: 1
     volumes:
       - ./app:/app
+    networks:
+      - app_network
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: fake_db_password
+      MYSQL_DATABASE: wikipanime
+      MYSQL_USER: yuwkaa
+      MYSQL_PASSWORD: fake_db_password
+      TZ: Asia/Ho_Chi_Minh
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app_network
 
 networks:
   app_network:
