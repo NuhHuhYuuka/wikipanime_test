@@ -30,3 +30,30 @@
       command: docker-compose up -d --build
       args:
         chdir: /opt/wikipanime
+    
+    - name: 5. Pull CloudFlare source code from github
+      get_url:
+        url: https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+        dest: /tmp/cloudflared.deb
+
+    - name: 6. Install Cloudflare for server
+      become: yes
+      apt:
+        deb: /tmp/cloudflared.deb
+
+    - name: 7. Run CloudFlare tunnel in the background
+      shell: nohup cloudflared tunnel --url http://localhost:5000 > /tmp/cloudflare.log 2>&1 &
+      async: 10
+      poll: 0
+
+    - name: 8. Set maximum 5s to generate free url
+      pause:
+        seconds: 5
+
+    - name: 9. Extract url from Logs
+      shell: grep -o 'https://[-a-zA-Z0-9]*\.trycloudflare\.com' /tmp/cloudflare.log
+      register: cloudflare_url
+
+    - name: 10. Done setting and deploying remotely
+      debug:
+        msg: "Successfully deployed public web at: {{ cloudflare_url.stdout }}"
