@@ -7,11 +7,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}">
 </head>
 <body>
-    <div id="troll-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; display: flex; justify-content: center; align-items: center;">
-        <video id="troll-video" autoplay style="border-radius: 20px; max-width: 80%;">
+    <div id="troll-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center;">
+        <video id="troll-video" style="border-radius: 20px; max-width: 80%;">
             <source src="{{ url_for('static', filename='videos/nihahahaha.mp4') }}" type="video/mp4">
-            Your website does not support videos.
         </video>
+    </div>
+
+    <div id="brute-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;">
+        <img src="{{ url_for('static', filename='images/brute_warning.jpg') }}" style="border-radius: 15px; max-width: 80%;">
+        <button onclick="document.getElementById('brute-modal').style.display='none'" style="margin-top: 20px; padding: 10px 25px; font-size: 16px; border-radius: 8px; cursor: pointer; background: #ff4757; color: white; border: none; font-weight: bold;">I'm sorry...</button>
     </div>
 
     <div class="glass-container error-box">
@@ -26,15 +30,27 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var video = document.getElementById('troll-video');
-            var modal = document.getElementById('troll-modal');
+            let failCount = sessionStorage.getItem('loginFailCount') || 0;
+            failCount = parseInt(failCount) + 1;
+            sessionStorage.setItem('loginFailCount', failCount);
+
+            let videoModal = document.getElementById('troll-modal');
+            let video = document.getElementById('troll-video');
+            let bruteModal = document.getElementById('brute-modal');
+
+            if (failCount >= 4) {
+                bruteModal.style.display = 'flex';
+            } else {
+                videoModal.style.display = 'flex';
+                video.play();
+            }
             
             video.onended = function() {
-                modal.style.display = 'none';
+                videoModal.style.display = 'none';
             };
 
-            modal.onclick = function() {
-                modal.style.display = 'none';
+            videoModal.onclick = function() {
+                videoModal.style.display = 'none';
                 video.pause();
             };
         });
