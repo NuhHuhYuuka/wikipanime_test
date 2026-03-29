@@ -6,7 +6,7 @@
 }
 
 body {
-    background: url('https://truth.bahamut.com.tw/s01/202004/d647f9d25675eec5570472f120a08b2f.JPG') no-repeat center center fixed;
+    background: url('../images/login.jpg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
     justify-content: center;

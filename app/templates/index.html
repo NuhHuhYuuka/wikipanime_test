@@ -7,7 +7,18 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 <body>
-    <div class="glass-container">
+    <div id="start-overlay">
+        <button id="start-btn" class="btn btn-primary dive-btn">Dive into the Anime World 🌌</button>
+    </div>
+
+    <div id="intro-overlay">
+        <video id="intro-video" playsinline>
+            <source src="{{ url_for('static', filename='videos/intro.mp4') }}" type="video/mp4">
+        </video>
+        <button id="skip-btn">Skip Intro ⏭</button>
+    </div>
+
+    <div class="glass-container" id="main-content">
         <h1>Wikipanime</h1>
         <p>Search for the anime you love (hopefully)</p>
         <div class="btn-group">
@@ -15,5 +26,49 @@
             <a href="/login" class="btn btn-secondary">Login</a>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const startOverlay = document.getElementById('start-overlay');
+            const startBtn = document.getElementById('start-btn');
+            const introOverlay = document.getElementById('intro-overlay');
+            const introVideo = document.getElementById('intro-video');
+            const skipBtn = document.getElementById('skip-btn');
+            const mainContent = document.getElementById('main-content');
+            const hasSeenIntro = sessionStorage.getItem('hasSeenIntro');
+
+            if (hasSeenIntro) {
+                startOverlay.style.display = 'none';
+                introOverlay.style.display = 'none';
+                mainContent.classList.add('fade-in');
+            } else {
+                startBtn.onclick = function() {
+                    startOverlay.classList.add('fade-out');
+                    setTimeout(() => {
+                        startOverlay.style.display = 'none';
+                        introVideo.play();
+                    }, 500);
+                };
+
+                function transitionToMain() {
+                    introOverlay.classList.add('dive-out');
+                    mainContent.classList.add('fade-in');
+                    
+                    sessionStorage.setItem('hasSeenIntro', 'true');
+                    
+                    setTimeout(() => {
+                        introOverlay.style.display = 'none';
+                    }, 1000); 
+                }
+
+                introVideo.onended = transitionToMain;
+
+                skipBtn.onclick = function() {
+                    introVideo.pause();
+                    transitionToMain();
+                };
+            }
+        });
+    </script>
 </body>
 </html>

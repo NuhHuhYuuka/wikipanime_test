@@ -6,7 +6,7 @@
 }
 
 body {
-    background: url('https://wallpapercave.com/wp/wp6137595.jpg') no-repeat center center fixed;
+    background: url('../images/success.jpg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
     justify-content: center;
