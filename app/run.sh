@@ -13,7 +13,6 @@ echo "Setting up database..."
 mysql -u root -e "CREATE DATABASE IF NOT EXISTS wikipanime;"
 mysql -u root -e "CREATE USER IF NOT EXISTS 'yuwkaa'@'localhost' IDENTIFIED BY 'fake_db_password';"
 mysql -u root -e "GRANT ALL PRIVILEGES ON wikipanime.* TO 'yuwkaa'@'localhost';"
-mysql -u root wikipanime < /tmp/init.sql
 
 echo "Loading data from init.sql..."
 mysql -u root wikipanime < /tmp/init.sql
