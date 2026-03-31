@@ -8,8 +8,9 @@
       apt:
         name:
           - git
-          - docker.io
-          - docker-compose
+          - docker.io=28.2.2-0ubuntu1~22.04.1
+          - docker-compose-v2=2.37.1+ds1-0ubuntu2~22.04.1
+          - docker-buildx=0.21.3-0ubuntu1~22.04.1
         state: present
         update_cache: yes
 
@@ -27,9 +28,9 @@
         force: yes
 
     - name: 4. Build Docker image and run containers
-      command: docker-compose up -d --build
-      args:
-        chdir: /opt/wikipanime
+      community.docker.docker_compose_v2:
+        project_src: /opt/wikipanime
+        state: present
     
     - name: 5. Pull CloudFlare source code from github
       get_url:
@@ -41,14 +42,19 @@
       apt:
         deb: /tmp/cloudflared.deb
 
+    - name: 6.5. Clean up all existing Cloudflare tunnels
+      shell: pkill -x cloudflared || true
+      
     - name: 7. Run CloudFlare tunnel in the background
       shell: nohup cloudflared tunnel --url http://localhost:5000 > /tmp/cloudflare.log 2>&1 &
       async: 10
       poll: 0
 
-    - name: 8. Set maximum 5s to generate free url
-      pause:
-        seconds: 5
+    - name: 8. Wait dynamically for Cloudflare URL
+      wait_for:
+        path: /tmp/cloudflare.log
+        search_regex: 'https://[-a-zA-Z0-9]*\.trycloudflare\.com'
+        timeout: 30
 
     - name: 9. Extract url from Logs
       shell: grep -o 'https://[-a-zA-Z0-9]*\.trycloudflare\.com' /tmp/cloudflare.log
