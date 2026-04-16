@@ -9,14 +9,14 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-RUN useradd -M nguoiyeuhayaseyuuka
+RUN useradd -M gugugaga2452
 
 COPY . .
 COPY ./init.sql /tmp/init.sql
 
 RUN chmod +x run.sh
 
-RUN chown -R nguoiyeuhayaseyuuka:nguoiyeuhayaseyuuka /app 
+RUN chown -R gugugaga2452:gugugaga2452 /app 
 RUN chmod -R 750 /app
 
 EXPOSE 5000
