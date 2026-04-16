@@ -25,5 +25,5 @@ else
     echo "init.sql not found. Database is already initialized, skipping..."
 fi
 
-echo "Starting Flask as user nguoiyeuhayaseyuuka..."
-su nguoiyeuhayaseyuuka -c "python3 app.py"
+echo "Starting Flask as user gugugaga2452..."
+su gugugaga2452 -c "python3 app.py"
